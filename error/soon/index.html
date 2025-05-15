@@ -76,14 +76,12 @@
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(10px);
         }
-
     </style>
 </head>
 <body>
     <div class="topbar">
         <div class="title"></div>
     </div>
-
     <div class="card">
         <h1>Under Construction</h1>
         <p>We're working hard to bring something great! Stay tuned.</p>
@@ -92,10 +90,8 @@
     <script>
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-        
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
         const fontSize = 14;
         const columns = Math.floor(canvas.width / fontSize);
@@ -120,19 +116,15 @@
                 drops[i]++;
             }
         }
-
         setInterval(draw, 50);
-
         function toggleEffect() {
             running = !running;
         }
-
         window.addEventListener("resize", () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             drops = Array(columns).fill(0);
         });
-
     </script>
 </body>
 </html>
