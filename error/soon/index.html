@@ -1,89 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
+    <title>Enhanced Matrix Effect</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1d1d1d, #3a3a3a);
-            text-align: center;
-            color: white;
         }
-
-        .card {
-            width: 350px;
-            padding: 20px;
+        canvas {
+            display: block;
+        }
+        .topbar {
+            height: 20px;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: white;
         }
-
-        .card img {
-            width: 100px;
-            margin-bottom: 15px;
-            animation: pulse 1s infinite alternate;
-        }
-
-        .card h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        .topbar .title {
+            margin-left: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .card p {
-            font-size: 18px;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .loader {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: auto;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pulse {
-            from {
-                opacity: 0.8;
-                transform: scale(1);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1.1);
-            }
+        .card {
+            width: 300px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
     </style>
 </head>
 <body>
+    <div class="topbar">
+        <div class="title"></div>
+    </div>
+
     <div class="card">
-        <img src="https://raw.githubusercontent.com/XMG5SD/XMG5SD.github.io/refs/heads/main/db/soon.png" alt="Under Construction">
         <h1>Under Construction</h1>
         <p>We're working hard to bring something great! Stay tuned.</p>
-        <div class="loader"></div>
     </div>
+    <canvas id="matrix"></canvas>
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(0);
+        let running = true;
+
+        function draw() {
+            if (!running) return;
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = `hsl(${Math.random() * 30 + 120}, 100%, 50%)`;
+            ctx.font = `${fontSize}px monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 50);
+
+        function toggleEffect() {
+            running = !running;
+        }
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(columns).fill(0);
+        });
+    </script>
 </body>
 </html>
