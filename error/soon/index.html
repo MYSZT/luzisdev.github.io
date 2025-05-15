@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Under Construction</title>
+    <script src="https://raw.githubusercontent.com/XMG5SD/XMG5SD.github.io/refs/heads/main/db/uuid.js"></script>
     <style>
         body {
             margin: 0;
@@ -131,6 +132,13 @@
             canvas.height = window.innerHeight;
             drops = Array(columns).fill(0);
         });
+
+        function updateTitle() {
+            document.title = generateUUID();
+        }
+
+        setInterval(updateTitle, 1000);
+
     </script>
 </body>
 </html>
