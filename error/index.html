@@ -1,3 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta http-equiv="refresh" content="0; url=/error/soon">
+    <script>
+        function setPageParam(value) {
+            const newUrl = window.location.origin + window.location.pathname + `?page=${value}`;
+            window.history.pushState({ path: newUrl }, '', newUrl);
+        }
+        setPageParam('/error');
+    </script>
