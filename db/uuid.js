@@ -5,3 +5,9 @@ function generateUUID() {
         return v.toString(16);
     });
 }
+
+function updateTitle() {
+     document.title = generateUUID();
+}
+ 
+setInterval(updateTitle, 1000);
