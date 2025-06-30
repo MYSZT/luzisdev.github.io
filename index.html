@@ -6,16 +6,55 @@
   <style>
     body { margin: 0; overflow: hidden; background: #000000; }
     canvas { display: block; }
-    .card {  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; color: white; backdrop-filter: blur(10px); height: 20vw; width: 20vw; border-width: 1px; border: 1px solid rgba(255,255,255,0.5); font-family: monospace; font-weight: bold; display: flex; flex-direction: column; align-items: center;}
+    .card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; color: white; backdrop-filter: blur(10px); height: 30vw; width: 45vw; border-width: 1px; border: 1px solid rgba(255,255,255,0.5); font-family: monospace; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: transform 0.1s linear; will-change: transform;}
     .card span {font-family: monospace; font-weight: bold; font-size: 1.2em;}
 
   </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
-<div class="card"><span>soon</span></div>
+<div class="card"><span>soon!</span></div>
 
 <script>
+const card = document.querySelector('.card');
+
+card.addEventListener('mousemove', (e) => {
+  const rect = card.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const deltaX = e.clientX - centerX;
+  const deltaY = e.clientY - centerY;
+
+  rotateY = deltaX * 0.15;
+  rotateX = -deltaY * 0.15;
+
+  const radX = rotateX * (Math.PI / 180);
+  const radY = rotateY * (Math.PI / 180);
+
+  const sinX = Math.sin(radX), cosX = Math.cos(radX);
+  const sinY = Math.sin(radY), cosY = Math.cos(radY);
+
+  const matrix3d = [
+    cosY, sinX * sinY, cosX * sinY, 0,
+    0,    cosX,        -sinX,       0,
+   -sinY, sinX * cosY, cosX * cosY, 0,
+    0,    0,           0,           1
+  ];
+
+  card.style.transform = `translate(-50%, -50%) matrix3d(${matrix3d.map(n => n.toFixed(5)).join(',')})`;
+});
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+card.addEventListener('mouseleave', async () => {
+  await sleep(500);
+  card.style.transform = `translate(-50%, -50%)`;
+});
+
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let width, height;
@@ -91,24 +130,6 @@ function draw() {
 }
 
 draw();
-
-/*
-window.setball = function(count) {
-    createParticles(count);
-    console.log(`Set ball count to ${count}`);
-};
-
-window.setspeed = function(speed) {
-    velocityMultiplier = speed;
-    for (let p of particles) {
-        p.vx = (Math.random() - 0.5) * velocityMultiplier;
-        p.vy = (Math.random() - 0.5) * velocityMultiplier;
-    }
-  console.log(`Set speed multiplier to ${speed}`);
-};
-
-window.initializeRefreshCanvas = initializeRefreshCanvas;
-*/
 
 </script>
 </body>
