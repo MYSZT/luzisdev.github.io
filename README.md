@@ -1,2 +1,2 @@
-#Mercury Roblox Luau IDE
+# Mercury Roblox Luau IDE
 - soon!
